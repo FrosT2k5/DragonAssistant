@@ -2,12 +2,13 @@
 import speech_recognition as sr
 import pyttsx3
 import os
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 import time
 from difflib import SequenceMatcher
 import datetime
 from requests import get
 import random
+from utils import wtr
 
 #Clear function to clear the terminal screen
 def clr():
@@ -86,16 +87,13 @@ def matches():
             engine.runAndWait()
             input()
             matches()
-        elif match("what is temperature",a) == True:
+        elif match("what is weather",a) == True:
             city = listener(wtr=1)
             if city:
-                LANG = "english"
-                URL = f"http://wttr.in/{city}?lang={LANG}&format=j1"
-                result = get(URL).json()
-                weather = result["current_condition"][0]
-                out = f"The temperature in {city} is" + weather["temp_C"]
+                wet,temp = wtr(city)
+                out = f"The temperature in {city} is" + temp
                 engine.say(out)
-                print(Fore.YELLOW,"Current temperature of {0} is,".format(city),weather["temp_C"],"^C")
+                print(wet)
                 engine.runAndWait()
                 input()
                 matches()
@@ -121,11 +119,21 @@ def matches():
             engine.runAndWait()
             HOME = os.environ.get("HOME")
             music_dir = f"{HOME}/Music/fav/"
-            songs = os.listdir(music_dir)
             print(Style.RESET_ALL)
-            os.system("play {0}{1}".format(music_dir,random.choice(songs)))
-            input()
-            matches()
+            while True:
+                songs = os.listdir(music_dir)
+                print(Style.RESET_ALL)
+                os.system("play {0}{1}".format(music_dir,random.choice(songs)))
+                check = input("Play another song?(Y/n): ")
+                if check == "Y" or check == "y":
+                    out = "Okay master, playing another random song"
+                    print(Fore.GREEN,out)
+                    engine.say(out)
+                    engine.runAndWait()
+                else:
+                    print(Fore.GREEN,"Press enter to restart the bot")
+                    input()
+                    matches()
         elif match("start telegram", a):
             engine.say("Cool, starting telegram")
             engine.runAndWait()
@@ -133,6 +141,29 @@ def matches():
             os.system("bash $HOME/Desktop/Telegram.sh") 
             input()
             matches()  
+        elif match("tell a joke", a):
+            engine.say("Alright, a dank joke coming right in your screen")
+            engine.runAndWait()
+            joke = get("https://v2.jokeapi.dev/joke/Programming,Miscellaneous,Pun?blacklistFlags=nsfw,religious,political&type=twopart").json()
+            if 'setup' in joke:
+                setup = joke["setup"]
+                delivery = joke["delivery"]
+                print(Fore.YELLOW,"Here's your joke, hope you like it :D\n\n")
+                time.sleep(0.2)
+                print(Fore.GREEN,setup)
+                engine.say(setup)
+                engine.runAndWait()
+                print(Fore.CYAN,delivery)
+                engine.say(delivery)
+                engine.runAndWait()
+                input()
+                matches()
+            else:
+                print(Fore.RED,"Unknown error occured, please check your internet connection or jokes api is down")
+                engine.say("Unknown error occured")
+                engine.runAndWait()
+                input()
+                matches() 
         elif match("reboot", a):
             a = input(f"{Fore.RED}Are you sure about that? (Y/n)(Case sensitive): ")
             if a == "Y":
@@ -141,10 +172,26 @@ def matches():
                 engine.runAndWait()
                 print(Style.RESET_ALL)
                 os.system("reboot") #This only works on linux btw, if you are a windows user find the command urself or ditch windows :p
+        elif match("shutdown", a):
+            a = input(f"{Fore.RED}Are you sure about that? (Y/n)(Case sensitive): ")
+            if a == "Y":
+                engine.say("Okay master, scheduling a shutdown for 1 minute from now")
+                print(Fore.RED,"Okay master, scheduling a shutdown for 1 minute from now")
+                engine.runAndWait()
+                print(Style.RESET_ALL)
+                os.system("shutdown")
             else:
-                print(Fore.YELLOW,"Skipped Rebooting, starting bot again in 1s")
+                print(Fore.YELLOW,"Skipped shutting down, starting bot again in 1s")
                 time.sleep(1)
                 matches()
+        elif match("cancel shutdown", a):
+            engine.say("Okay sir, cancelling the scheduled shutdown")
+            print(Fore.RED,"Okay master, cancelling the scheduled shutdown")
+            engine.runAndWait()
+            print(Style.RESET_ALL)
+            os.system("shutdown -c")
+            input()
+            matches()
         elif match("dragon help", a):
             out = "\n\nHello there, this is dragon assistant speaking to you. I am here to help you with with a lot of things, check matches function of this python code to know what are the commands available. You can even modify that function to add your own custom commands. I am owned by Yash Patil or FrosT"
             print(Fore.GREEN, out)
