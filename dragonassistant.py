@@ -184,6 +184,7 @@ def matches():
                 engine.runAndWait()
                 print(Style.RESET_ALL)
                 os.system("shutdown")
+                exit()
             else:
                 print(Fore.YELLOW,"Skipped shutting down, starting bot again in 1s")
                 time.sleep(1)
