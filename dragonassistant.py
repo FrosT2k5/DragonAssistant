@@ -125,15 +125,15 @@ def matches():
                 print(Style.RESET_ALL)
                 os.system("play {0}{1}".format(music_dir,random.choice(songs)))
                 check = input("Play another song?(Y/n): ")
-                if check == "Y" or check == "y":
+                if check == "N" or check == "n":
+                    print(Fore.GREEN,"Press enter to restart the bot")
+                    input()
+                    matches()
+                else:
                     out = "Okay master, playing another random song"
                     print(Fore.GREEN,out)
                     engine.say(out)
                     engine.runAndWait()
-                else:
-                    print(Fore.GREEN,"Press enter to restart the bot")
-                    input()
-                    matches()
         elif match("start telegram", a):
             engine.say("Cool, starting telegram")
             engine.runAndWait()
