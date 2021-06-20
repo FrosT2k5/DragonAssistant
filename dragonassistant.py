@@ -107,6 +107,12 @@ def matches():
             os.system("firefox") #Firefox and linux are love
             input()
             matches()
+        elif match("text editor", a):
+            engine.say("okay, opening sublime text editor")
+            engine.runAndWait()
+            os.system("subl")
+            input()
+            matches()
         elif match("browse website", a):
             engine.say("Please enter the website you want to visit")
             engine.runAndWait()
@@ -141,6 +147,13 @@ def matches():
             os.system("bash $HOME/Desktop/Telegram.sh") 
             input()
             matches()  
+        elif match("image editor",a):
+            engine.say("Okay, starting Gnu Image Manipulation Program")
+            engine.runAndWait()
+            print(Fore.YELLOW,"Starting GIMP (GNU Image Manipulation Program)")
+            os.system("gimp")
+            input()
+            matches()
         elif match("tell a joke", a):
             engine.say("Alright, a dank joke coming right in your screen")
             engine.runAndWait()
