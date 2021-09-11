@@ -9,7 +9,7 @@ It can play music, tell me a joke, do a reboot/shutdown, start minecraft, start 
 How to install?
 Use the following commands to install and run via terminal:
 
-1.```git clone https://github.com/FrosT2k5/dragonassistant```
+1.```git clone https://github.com/FrosT2k5/dragonassistant.git```
 
 2.```cd dragonassistant```
 
