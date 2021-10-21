@@ -189,7 +189,7 @@ def matches():
                 print(Fore.YELLOW,"Skipped Rebooting, starting bot again in 1s")
                 time.sleep(1)
                 matches()
-        elif match("shutdown", a):
+        elif match("power off", a):
             a = input(f"{Fore.RED}Are you sure about that? (Y/n)(Case sensitive): ")
             if a == "Y":
                 engine.say("Okay master, scheduling a shutdown for 1 minute from now")
@@ -202,7 +202,7 @@ def matches():
                 print(Fore.YELLOW,"Skipped shutting down, starting bot again in 1s")
                 time.sleep(1)
                 matches()
-        elif match("cancel shutdown", a):
+        elif match("cancel power off", a):
             engine.say("Okay sir, cancelling the scheduled shutdown")
             print(Fore.RED,"Okay master, cancelling the scheduled shutdown")
             engine.runAndWait()
