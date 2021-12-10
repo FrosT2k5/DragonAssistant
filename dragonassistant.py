@@ -22,11 +22,18 @@ clr()
 engine = pyttsx3.init()
 engine.setProperty('voice','english-us')
 engine.setProperty('rate',160)
-engine.say("Hello master, I am Dragon Assistant and I will help you to make your life easier")
+print(Fore.BLUE + "\n\n======================================\n\nGreetings! Welcome to Dragon Assistant\n", Fore.CYAN,"Version : 0.1",Fore.BLUE,"\n\n======================================\n\n")
+i = 0
+slashes = ('\\','|',"/","-")
+while i <= 5:
+    try:
+        for sl in slashes:
+            print(f"{Fore.CYAN}[ {sl} ] {Fore.GREEN}... Loading Dragon Assistant!{Style.RESET_ALL}",end="\r")
+            time.sleep(0.1)
+        i+=1
+    except KeyboardInterrupt:
+        break
 
-print(Fore.BLUE + "======================================\n\nGreetings! Welcome to Dragon Assistant\n", Fore.CYAN,"Version : 0.1",Fore.BLUE,"\n\n======================================")
-engine.runAndWait()
-        
 #The Listener starts here
 r = sr.Recognizer()
 r.pause_threshold = 1
